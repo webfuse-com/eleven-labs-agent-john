@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Agent</title>
+  <link rel="stylesheet" href="popup.css" />
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+
+<body>
+  <div class="va-root" data-state="idle" data-status="idle" id="va-root">
+    <!-- Top bar: small orb + status -->
+    <header class="va-topbar" aria-live="polite">
+      <div class="va-topbar-left">
+        <div class="va-avatar va-avatar--sm" aria-hidden="true">
+          <div class="va-orb-core"></div>
+        </div>
+        <div class="va-status">
+          <span class="va-status-text" id="va-status-text">Idle</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Idle state -->
+    <section class="va-idle" id="va-idle">
+      <div class="va-orb">
+        <div class="va-orb-core"></div>
+        <button id="btn-start" class="va-callbtn" aria-label="Start call" title="Start call">
+          <iconify-icon icon="icon-park-outline:phone-telephone" width="20" height="20" style="color:#e5e7eb;"></iconify-icon>
+        </button>
+      </div>
+      <div class="va-idle-hint">Ask AI Agent</div>
+    </section>
+
+    <!-- Connected state -->
+    <section class="va-connected" id="va-connected" aria-label="Conversation">
+      <div class="va-chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+      <form class="va-inputrow" id="input-form" autocomplete="off">
+        <input id="chat-input" class="va-input" type="text" placeholder="Ask Daniel" aria-label="Message" />
+        <div class="va-input-actions">
+          <!-- Mute / Unmute -->
+          <button class="va-iconbtn" id="btn-mute" type="button" aria-label="Toggle microphone" title="Mute / Unmute">
+            <iconify-icon id="mic-icon" icon="mage:microphone" width="20" height="20" style="color:#e5e7eb;"></iconify-icon>
+          </button>
+          <!-- Send text 
+          <button class="va-sendbtn" id="btn-send" type="submit" aria-label="Send message" title="Send">
+            <svg class="va-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.4 20.6 21 12 3.4 3.4 3 10l11 2-11 2z" fill="currentColor" />
+            </svg>
+          </button>
+          -->
+          <!-- End call           -->
+          <button class="va-iconbtn va-danger" id="btn-end" type="button" aria-label="End call" title="End call">
+            <iconify-icon icon="icon-park-outline:phone-off" width="20" height="20" style="color:#e5e7eb;"></iconify-icon>
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Keep script order; no changes requested -->
+  <script src="popup.agent.js"></script>
+  <script src="popup.action.js"></script>
+  <script src="popup.elevenlabs.js"></script>
+</body>
+
+</html>
