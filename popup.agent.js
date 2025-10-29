@@ -1,20 +1,18 @@
 // ==========================================================
 // CLIENT TOOLS (exactly as you specified; preserved verbatim)
 // ==========================================================
+const snapshotSelector = "#main-container > div.page-wrapper > div";
 const CLIENT_TOOLS = {
-    async takeDomSnapshot() {
-        const fullSnapshot = await browser.webfuseSession
-            .automation
-            .takeDomSnapshot();
-        return ((fullSnapshot.length / 4) < 2**15)
-            ? fullSnapshot
-            : browser.webfuseSession
-                .automation
-                .takeDomSnapshot({
-                    modifier: "downsample"
-                });
-    },
-    async leftClick({ selector }) {
+async take_dom_snapshot() {
+  const finalSnapshot = await browser.webfuseSession.automation.take_dom_snapshot({
+    rootSelector: snapshotSelector,
+    deep: true // keep
+    // ← no modifier: capture full HTML, not a distilled sketch
+  });
+  console.debug("Snapshot length:", finalSnapshot?.length || 0);
+  return finalSnapshot;
+},
+    async left_click({ selector }) {
         return browser.webfuseSession
             .automation
             .leftClick(selector, true);
