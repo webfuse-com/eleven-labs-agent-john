@@ -58,11 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setMobileUI() {
-    console.log("Setting mobile UI for popup");
-    browser.browserAction.resizePopup(175, 200);
+  console.log("Setting mobile UI for popup");
+  browser.browserAction.resizePopup(250, 500);
+  browser.browserAction.setPopupStyles({right:0, left:"auto"});
+  const root = document.getElementById('va-root');
+  if (root) root.setAttribute('data-variant', 'mobile');   // or data-mobile="true" if you prefer
 }
 
 function setdesktopUI() {
-    console.log("Setting desktop UI for popup");
-    browser.browserAction.resizePopup(350, 400);
+  console.log("Setting desktop UI for popup");
+  browser.browserAction.resizePopup(350, 400);
+  const root = document.getElementById('va-root');
+  if (root) {
+    root.removeAttribute('data-variant');                   // clear explicit mobile
+    root.removeAttribute('data-mobile');
+  }
 }

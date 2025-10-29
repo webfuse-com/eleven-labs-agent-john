@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voice Mortgage – Quick Start</title>
+    <style>
+        :root {
+            /* Fallback dark theme */
+            --bg: #0b0b0b;
+            --fg: #f5f5f5;
+            --muted: #c9c9c9;
+            --border: #2a2a2a;
+            --accent: #e5e5e5;
+            /* Will be replaced with Webfuse color if detectable */
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: var(--bg);
+            color: var(--fg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wrap {
+            min-height: 80vh;
+            /* mobile-safe viewport */
+            display: grid;
+            grid-template-rows: 1fr auto;
+        }
+
+        .content {
+            display: grid;
+            place-content: center;
+            padding: clamp(16px, 4vw, 48px);
+        }
+
+        .panel {
+            /* Constrain line-length but let it breathe on mobile */
+            max-width: 72rem;
+            margin-inline: auto;
+        }
+
+        h1 {
+            font-size: clamp(1.6rem, 2.2vw + 1.2rem, 2.6rem);
+            line-height: 1.15;
+            margin: clamp(-1rem, -3vh, -2rem) 0 0.85rem 0;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: var(--muted);
+        }
+
+        /* Large, responsive list that fills most of the screen */
+        ol {
+            counter-reset: step;
+            list-style: none;
+            font-weight: 800;
+            /* Mobile: big and bold. Desktop: still prominent. */
+            font-size: clamp(1.6rem, 5.2vw + 1vh, 3.2rem);
+            line-height: clamp(1.15, 2.5vh, 1.28);
+            margin: 0;
+            padding: 0;
+        }
+        ol li::before {
+            counter-increment: step;
+            content: counter(step) ".";
+            color: #3b82f6;
+            font-weight: 900;
+            margin-right: 0.4em;
+        }
+        ol li {
+            display: flex;
+            align-items: baseline;
+            margin: 0 0 clamp(1rem, 2.5vh, 1.5rem) 0;
+        }
+
+        /* Ensure the steps visually cover most of the screen area */
+        .panel {
+            display: grid;
+            align-content: center;
+        }
+
+        .cta {
+            border-top: 1px solid var(--border);
+            padding: clamp(16px, 4vw, 24px);
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            bottom: 0;
+            backdrop-filter: blur(8px);
+            background: color-mix(in oklab, var(--bg) 88%, black 12%);
+        }
+
+        button.start {
+            appearance: none;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--fg);
+            font: inherit;
+            padding: clamp(1rem, 1.4vw + 0.75rem, 1.25rem) clamp(1.25rem, 2.4vw + 0.75rem, 2rem);
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: transform 120ms ease, background-color 120ms ease, color 120ms ease;
+                width: 200px;
+        }
+
+        button.start:hover {
+            transform: translateY(-1px);
+            background: var(--accent);
+            color: #000;
+        }
+
+        button.start:active {
+            transform: translateY(0);
+        }
+
+        button.start:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .note {
+            margin-top: 0.6rem;
+            font-size: clamp(0.9rem, 0.6vw + 0.75rem, 1rem);
+            color: var(--muted);
+            text-align: center;
+        }
+
+        /* Better touch targets on small screens */
+        @media (max-width: 480px) {
+            .cta {
+                padding: 20px;
+            }
+
+            button.start {
+                width: 100%;
+                max-width: 520px;
+            }
+        }
+
+        .favicon-link {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            margin: 12px auto 8px auto;
+            width: 100%;
+        }
+        .favicon {
+            width: clamp(32px, 5vw, 64px);
+            height: auto;
+            margin-bottom: 4px;
+        }
+        .favicon-caption {
+            font-size: 1.5rem;
+            color: var(--muted);
+        }
+        .site-header {
+            display: grid;
+            place-items: center;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <a href="https://www.webfuse.com" target="_blank" rel="noopener" class="favicon-link">
+            <img src="favicon.svg" alt="Webfuse logo" class="favicon">
+            <div class="favicon-caption">visit our website</div>
+        </a>
+    </header>
+    <div class="wrap">
+        <main class="content">
+            <section class="panel" aria-labelledby="title">
+                <ol>
+                    <li>Tap Start</li>
+                    <li>Press the button to unmute</li>
+                    <li>Complete a mortgage application</li>
+                </ol>
+            </section>
+        </main>
+
+        <footer class="cta">
+            <div>
+                <button id="startBtn" class="start" aria-label="Start voice session">
+                    Start
+                </button>
+                <div class="note" aria-live="polite" id="status" role="status"></div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    (function () {
+        const btn = document.getElementById('startBtn');
+        const status = document.getElementById('status');
+    
+        function setStatus(msg) {
+            if (status) status.textContent = msg || '';
+        }
+    
+        // Try to adopt Webfuse brand colors into --accent automatically if present
+        function tryAdoptWebfuseColors() {
+            try {
+                const wfPrimary = (window.webfuse && (webfuse.primary || webfuse.color || (webfuse.colors && webfuse.colors.primary)));
+                if (wfPrimary) {
+                    document.documentElement.style.setProperty('--accent', wfPrimary);
+                    return;
+                }
+                const candidates = document.querySelectorAll('[class*="webfuse"], [id*="webfuse"], [class*="surfly"], [id*="surfly"], [class*="wf-"], [data-wf]');
+                for (const el of candidates) {
+                    const cs = getComputedStyle(el);
+                    const bg = cs.backgroundColor;
+                    const br = cs.borderColor;
+                    const colorToUse = (bg && bg !== 'rgba(0, 0, 0, 0)') ? bg : (br && br !== 'rgba(0, 0, 0, 0)') ? br : null;
+                    if (colorToUse) {
+                        document.documentElement.style.setProperty('--accent', colorToUse);
+                        return;
+                    }
+                }
+            } catch (e) { /* no-op */ }
+        }
+    
+        const mo = new MutationObserver(() => tryAdoptWebfuseColors());
+        mo.observe(document.documentElement, { childList: true, subtree: true });
+    
+        if (btn) {
+            btn.addEventListener('click', function () {
+                btn.disabled = true;
+                setStatus('Starting…');
+    
+                // Load Webfuse and start a session (no button injection)
+                (function (w, e, b, f, u, s) {
+                    w[f] = w[f] || {
+                        initSpace: function () {
+                            return new Promise(resolve => {
+                                w[f].q = arguments;
+                                w[f].resolve = resolve;
+                            });
+                        },
+                    };
+                    u = e.createElement(b);
+                    s = e.getElementsByTagName(b)[0];
+                    u.async = 1;
+                    u.src = 'https://webfu.se/surfly.js';
+                    s.parentNode.insertBefore(u, s);
+                })(window, document, 'script', 'webfuse');
+    
+                webfuse.initSpace(
+                    'wk__RhLPjZDcyEutTYRMtzNioAgBcDfxXGf',
+                    '1274',
+                    {}
+                ).then(async space => {
+                    const session = space.session();
+                    await session.start();
+                    setStatus('Session started successfully.');
+                }).catch(error => {
+                    console.error('Failed:', error);
+                    setStatus('Failed to start. Check console for details.');
+                    btn.disabled = false;
+                });
+            }, { once: true });
+        }
+    })();
+    </script>
+</body>
+
+</html>

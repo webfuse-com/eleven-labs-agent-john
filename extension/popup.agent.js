@@ -21,7 +21,7 @@ async take_dom_snapshot() {
     async type({ text, selector }) {
         return browser.webfuseSession
             .automation
-            .type(text, selector, true);
+            .type(text, fixedSelector, true, true); // moveMouse: true, overwrite: true
     },
 
     relocate({ url }) {

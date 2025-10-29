@@ -914,3 +914,175 @@ html, body {
     box-shadow 260ms ease;
 }
 
+
+
+/* =========================
+   Compact / Mobile variant
+   Target container ~175 x 200
+   Applies when either:
+   - viewport is small, OR
+   - `.va-root` has data-variant="mobile"
+   ========================= */
+@media (max-width: 380px), (max-height: 260px) {
+  .va-root[data-variant="mobile"] &,
+  .va-root[data-mobile="true"] & {}
+
+  /* Root grid stays the same: auto | 1fr | auto.
+     We trim paddings / sizes inside to fit 175x200 containers. */
+
+  /* --- Top bar --- */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-topbar {
+    min-height: 34px;
+    padding: 6px 8px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-avatar--sm {
+    width: 28px;
+    height: 28px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-status {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  /* --- IDLE view (big orb) --- */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-idle {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-orb {
+    width: 90px;
+    height: 90px;
+    padding: 3vmin;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-callbtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    bottom: -4px;
+  }
+
+  /* Normalize mobile icon button box and center icons precisely */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-iconbtn,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-sendbtn,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-callbtn {
+    padding: 6px;              /* slightly larger touch area */
+    min-width: 34px;           /* larger square tap target */
+    min-height: 34px;
+    line-height: 0;            /* kill inline baseline gaps */
+    display: grid;
+    place-items: center;
+  }
+
+  /* Iconify icons: force 15×15 and override inline attributes */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-iconbtn iconify-icon,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-sendbtn iconify-icon,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-callbtn iconify-icon {
+    width: 15px !important;
+    height: 15px !important;
+    display: block;
+    margin: 0;
+  }
+
+  /* Inline SVGs (fallbacks): match 15×15 */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-iconbtn svg,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-sendbtn svg,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-callbtn svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    margin: 0;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-iconbtn > *,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-sendbtn > *,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-callbtn > * {
+    pointer-events: none; /* avoid mis-taps on inner SVG */
+  }
+
+  /* Ensure the input-actions group doesn't stretch the buttons */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-input-actions {
+    align-items: center;
+  }
+
+  /* --- Connected view --- */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-connected {
+    grid-template-rows: 1fr auto;
+  }
+
+  /* Chat area smaller paddings */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-chat {
+    padding: 6px 6px 4px 6px;
+  }
+
+  /* Bubbles: slightly smaller text/padding, same radii */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-bubble {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 8px 10px;
+    border-radius: 12px;
+    max-width: 90%;
+  }
+
+  /* Message row gaps tighter */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-row {
+    gap: 6px;
+    margin: 6px 0;
+  }
+
+  /* Bullet orb size matches header avatar scale */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-bullet {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* --- Input row --- */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-inputrow {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-input {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 7px;
+  }
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-idle-hint {
+    font-size: 12px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-input::placeholder {
+    font-size: 1em;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-input-actions {
+    gap: 6px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-iconbtn,
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-sendbtn {
+    padding: 8px;              /* match larger hit area */
+    border-radius: 8px;
+  }
+
+  /* Thinner scrollbars */
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-chat::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  :where(.va-root[data-variant="mobile"], .va-root[data-mobile="true"]) .va-chat::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+  }
+}
+
+/* Force-compact utility for programmatic opt-in even on larger screens */
+.va-root[data-variant="mobile"],
+.va-root[data-mobile="true"] {
+  /* no size set here; host defines container as 175x200.
+     The internal trims above ensure it fits cleanly. */
+}
